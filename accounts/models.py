@@ -39,7 +39,7 @@ class Account(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     account_created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['Full_Name', 'username', 'email', 'account_type']
+    REQUIRED_FIELDS = ['full_name', 'username', 'email', 'account_type']
 
     objects = UserManager()
 
