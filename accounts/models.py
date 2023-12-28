@@ -38,16 +38,15 @@ class Account(AbstractBaseUser):
     USERNAME_FIELD = 'phone_number'
     required_fields = ['Full_Name', 'username', 'email', 'account_type', 'phone_number']
     objects = UserManager()
-    # existing fields here...
+
 
     def has_module_perms(self, app_label):
         return self.is_active
 
-    # rest of your model...
 
-GenderType = models.TextChoices("Male", "Female", "Other")
-IDCardType = models.TextChoices("NID", "Passport", "Driving License")
-BloodGroup = models.TextChoices("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-")
+GenderType = models.Choices("GenderType", "Male Female Other")
+IDCardType = models.Choices("IDCard", "NID Passport Driving")
+BloodGroup = models.Choices("BloodGroup","A+ A- B+ B- AB+ AB- O+ O-")
 
 
 class Profile(models.Model):
