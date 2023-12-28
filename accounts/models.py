@@ -5,8 +5,6 @@ from django.db import models
 # Create your models here.
 
 
-AccountType = models.TextChoices("Individual", "Organization")
-
 
 class UserManager(BaseUserManager):
     def create_user(self, phone_number, password, **extra_fields):
@@ -27,16 +25,22 @@ class UserManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-    Full_Name = models.CharField(max_length=255)
+    AccountType = (
+        ('individual', 'Individual'),
+        ('organization', 'Organization')
+    )
+
+    full_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
-    account_type = models.CharField(max_length=20, choices=AccountType)
+    account_type = models.CharField(max_length=20, choices=AccountType, default="individual")
     phone_number = models.CharField(max_length=15, unique=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     account_created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'phone_number'
-    required_fields = ['Full_Name', 'username', 'email', 'account_type', 'phone_number']
+    REQUIRED_FIELDS = ['Full_Name', 'username', 'email', 'account_type']
+
     objects = UserManager()
 
 
