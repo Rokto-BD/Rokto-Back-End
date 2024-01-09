@@ -7,3 +7,4 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = "__all__"
+

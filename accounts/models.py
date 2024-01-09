@@ -2,26 +2,38 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
+
 # Create your models here.
 
 
-
 class UserManager(BaseUserManager):
-    def create_user(self, phone_number, password, **extra_fields):
+    def create_user(self, phone_number, password=None):
         if not phone_number:
             raise ValueError("Users must have a phone number")
-        user = self.model(phone_number=phone_number, **extra_fields)
+
+        user = self.model(phone_number=phone_number)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone_number, password):
-        user = self.create_user(phone_number=phone_number, password=password)
-        user.is_admin = True
+
+# create super user 
+    def create_superuser(self, phone_number, password=None):
+        user = self.create_user(phone_number = phone_number)
+        user.set_password(password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
         return user
+
+
+#   Create Staff User
+    def create_staffuser(self, phone_number, password=None):
+        user = self.create_user(phone_number, password)
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
+
 
 
 class Account(AbstractBaseUser):
@@ -34,23 +46,24 @@ class Account(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
     account_type = models.CharField(max_length=20, choices=AccountType, default="individual")
-    phone_number = models.CharField(max_length=15, unique=True)
+    phone_number = models.IntegerField(max_length=15, unique=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     account_created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['full_name', 'username', 'email', 'account_type']
 
     objects = UserManager()
 
-
     def has_module_perms(self, app_label):
         return self.is_active
-
+    def has_perm(self, perm, obj=None):
+        return True
+    def __str__(self):
+        return self.username
 
 GenderType = models.Choices("GenderType", "Male Female Other")
 IDCardType = models.Choices("IDCard", "NID Passport Driving")
-BloodGroup = models.Choices("BloodGroup","A+ A- B+ B- AB+ AB- O+ O-")
+BloodGroup = models.Choices("BloodGroup", "A+ A- B+ B- AB+ AB- O+ O-")
 
 
 class Profile(models.Model):
@@ -65,3 +78,7 @@ class Profile(models.Model):
     profession = models.CharField(max_length=255)
     blood_group = models.CharField(max_length=5, choices=BloodGroup)
     current_location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.id_verified + " " + self.blood_group
+
