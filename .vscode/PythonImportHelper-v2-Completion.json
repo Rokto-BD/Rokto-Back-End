@@ -592,7 +592,7 @@
         "kind": 6,
         "importPath": "accounts.models",
         "description": "accounts.models",
-        "peekOfCode": "class Account(AbstractBaseUser):\n    AccountType = (\n        ('individual', 'Individual'),\n        ('organization', 'Organization')\n    )\n    full_name = models.CharField(max_length=255)\n    username = models.CharField(max_length=255, unique=True)\n    email = models.EmailField(unique=True)\n    account_type = models.CharField(max_length=20, choices=AccountType, default=\"individual\")\n    phone_number = models.IntegerField(max_length=15, unique=True)",
+        "peekOfCode": "class Account(AbstractBaseUser):\n    AccountType = (\n        ('individual', 'Individual'),\n        ('organization', 'Organization')\n    )\n    username = models.CharField(max_length=255, unique=True)\n    account_type = models.CharField(max_length=20, choices=AccountType, default=\"individual\")\n    phone_number = models.IntegerField(max_length=15, unique=True)\n    account_created_at = models.DateTimeField(auto_now_add=True)\n    USERNAME_FIELD = 'phone_number'",
         "detail": "accounts.models",
         "documentation": {}
     },
@@ -601,7 +601,7 @@
         "kind": 6,
         "importPath": "accounts.models",
         "description": "accounts.models",
-        "peekOfCode": "class Profile(models.Model):\n    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()\n    permanent_address = models.TextField()\n    gender = models.CharField(max_length=10, choices=GenderType)\n    profession = models.CharField(max_length=255)",
+        "peekOfCode": "class Profile(models.Model):\n    full_name = models.CharField(max_length=255)\n    email = models.EmailField(unique=True)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()\n    permanent_address = models.TextField()\n    gender = models.CharField(max_length=10, choices=GenderType)",
         "detail": "accounts.models",
         "documentation": {}
     },
@@ -610,7 +610,7 @@
         "kind": 5,
         "importPath": "accounts.models",
         "description": "accounts.models",
-        "peekOfCode": "GenderType = models.Choices(\"GenderType\", \"Male Female Other\")\nIDCardType = models.Choices(\"IDCard\", \"NID Passport Driving\")\nBloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()",
+        "peekOfCode": "GenderType = models.Choices(\"GenderType\", \"Male Female Other\")\nIDCardType = models.Choices(\"IDCard\", \"NID Passport Driving\")\nBloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    full_name = models.CharField(max_length=255)\n    email = models.EmailField(unique=True)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()",
         "detail": "accounts.models",
         "documentation": {}
     },
@@ -619,7 +619,7 @@
         "kind": 5,
         "importPath": "accounts.models",
         "description": "accounts.models",
-        "peekOfCode": "IDCardType = models.Choices(\"IDCard\", \"NID Passport Driving\")\nBloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()\n    permanent_address = models.TextField()",
+        "peekOfCode": "IDCardType = models.Choices(\"IDCard\", \"NID Passport Driving\")\nBloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    full_name = models.CharField(max_length=255)\n    email = models.EmailField(unique=True)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()",
         "detail": "accounts.models",
         "documentation": {}
     },
@@ -628,7 +628,7 @@
         "kind": 5,
         "importPath": "accounts.models",
         "description": "accounts.models",
-        "peekOfCode": "BloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()\n    permanent_address = models.TextField()\n    gender = models.CharField(max_length=10, choices=GenderType)",
+        "peekOfCode": "BloodGroup = models.Choices(\"BloodGroup\", \"A+ A- B+ B- AB+ AB- O+ O-\")\nclass Profile(models.Model):\n    full_name = models.CharField(max_length=255)\n    email = models.EmailField(unique=True)\n    id_card_type = models.CharField(max_length=20, choices=IDCardType)\n    id_verified = models.BooleanField(default=False)\n    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)\n    date_of_birth = models.DateField()\n    present_address = models.TextField()\n    permanent_address = models.TextField()",
         "detail": "accounts.models",
         "documentation": {}
     },

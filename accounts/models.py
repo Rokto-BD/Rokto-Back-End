@@ -41,14 +41,9 @@ class Account(AbstractBaseUser):
         ('individual', 'Individual'),
         ('organization', 'Organization')
     )
-
-    full_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(unique=True)
     account_type = models.CharField(max_length=20, choices=AccountType, default="individual")
     phone_number = models.IntegerField(max_length=15, unique=True)
-    is_verified = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
     account_created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'phone_number'
 
@@ -67,7 +62,8 @@ BloodGroup = models.Choices("BloodGroup", "A+ A- B+ B- AB+ AB- O+ O-")
 
 
 class Profile(models.Model):
-    account = models.OneToOneField(Account, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
     id_card_type = models.CharField(max_length=20, choices=IDCardType)
     id_verified = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
@@ -78,6 +74,7 @@ class Profile(models.Model):
     profession = models.CharField(max_length=255)
     blood_group = models.CharField(max_length=5, choices=BloodGroup)
     current_location = models.CharField(max_length=255)
+    account = models.OneToOneField(Account, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id_verified + " " + self.blood_group
